@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Server
+{
+    class TCPCommunicator : ICommunicator
+    {
+        TcpClient client;
+        public TCPCommunicator(TcpClient client)
+        {
+            this.client = client;
+        }
+
+        public void Run(CommandD onCommand, CommunicatorD onDisconnect)
+        {
+            Byte[] bytes = new Byte[256];
+            string data = string.Empty;
+            int len;
+            NetworkStream stream = client.GetStream();
+            Console.WriteLine("- TCP - Running Comunicator");
+
+            try
+            {
+                while (client.Connected)
+                {
+                    if (stream.DataAvailable)
+                    {
+                        len = stream.Read(bytes, 0, bytes.Length);
+                        data += Encoding.ASCII.GetString(bytes, 0, len);
+                    }
+
+
+                    while (data != string.Empty)
+                    {
+
+                        string message = onCommand(data);
+
+
+                        Byte[] msg = Encoding.ASCII.GetBytes(message);
+
+                        stream.Write(msg, 0, msg.Length);
+                        Console.WriteLine("- TCP - Send: {0}", message);
+                        data = string.Empty;
+
+                    }
+                    data = string.Empty;
+                }
+                stream.Close();
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.ToString());
+                onDisconnect(this);
+            }
+        }
+
+        public void Start(CommandD onCommand, CommunicatorD onDisconnect)
+        {
+            Task.Run(()=>Run(onCommand, onDisconnect)); // w osobnym watku
+        }
+
+        public void Stop()
+        {
+            client.Close();
+            Console.WriteLine("- TCP - Communicator stopped");
+        }
+    }
+
+    class TCPListener : IListner
+    {
+        int port;
+        TcpListener tcpListener;
+
+
+        public TCPListener(int port)
+        {
+            this.port = port;
+        }
+
+        public void Run(CommunicatorD onConnect)
+        {
+
+            tcpListener = new TcpListener(IPAddress.Any, port); // <= problem // nieprawidlowo przekazywany adres i port !!!  localAddr, 8080 -- poprawiłem port na 8080 w Server.cs
+            TcpClient client;
+
+            tcpListener.Start();
+
+            while (true)
+            {
+
+                client = tcpListener.AcceptTcpClient(); //
+
+                Console.WriteLine("- TCP - Connected!"); // po polaczeniu sie klienta z serverem 
+
+                onConnect(new TCPCommunicator(client));
+
+                Console.WriteLine("- TCP - Connected with: " + client.Client.RemoteEndPoint); // <= tutaj kod nie wchodzi 
+            }
+        }
+
+        public void Start(CommunicatorD onConnect)
+        {
+             Task.Run(()=>Run(onConnect)); // w osobnym watku  // problem z funckja start
+        }
+        public void Stop()
+        {
+            Task.Run(()=>tcpListener.Stop());
+            Console.WriteLine("- TCP - Listner stopped");
+        }
+
+    }
+
+}
