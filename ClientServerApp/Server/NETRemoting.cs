@@ -28,11 +28,12 @@ namespace Server
             {
                 ChannelServices.RegisterChannel(serverChannel, false);
 
-                RemotingConfiguration.RegisterWellKnownServiceType(typeof
-                             (RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
+                //RemotingConfiguration.RegisterWellKnownServiceType(typeof
+                //             (RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
 
-                RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
-                RemotingServices.Marshal(remoteObject, "AnswerCommand");
+                RemoteObject remoteObject = new RemoteObject();
+                remoteObject.SetAnswer(new RemoteObject.CommandD(onCommand));
+                RemotingServices.Marshal(remoteObject, "RemoteObject");
 
                 // RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
                 //s remoteObject.AnswerCommand();

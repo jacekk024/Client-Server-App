@@ -32,7 +32,8 @@ namespace Server
                 //string receive = onCommand(receiveData);
                 //Byte[] sendData = Encoding.ASCII.GetBytes(receive);
                 //Console.WriteLine("Sent to {0}:{1}: {2}", sendData, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
-
+                
+                //kolejne wywolanie zawiesza 
 
                 while (true) 
                 {
@@ -44,7 +45,8 @@ namespace Server
 
                     string receive = onCommand(receiveData);
                     byte[] sendData = Encoding.ASCII.GetBytes(receive);
-                    Console.WriteLine(" - UDP - Sent to {0}:{1}: {2}", sendData, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                    client.Send(sendData, sendData.Length, RemoteIpEndPoint);
+                    Console.WriteLine(" - UDP - Sent to {0}:{1}: {2}", receive, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
 
                     break;
                 }

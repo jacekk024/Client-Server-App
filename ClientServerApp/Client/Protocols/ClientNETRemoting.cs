@@ -18,18 +18,23 @@ namespace Client.Protocols
 
             try
             {
-                TcpChannel clientChannel = new TcpChannel(); // w kliencie mozna konstruktor bez argumentowy 
-                ChannelServices.RegisterChannel(clientChannel, true);
+                //TcpChannel clientChannel = new TcpChannel(); // w kliencie mozna konstruktor bez argumentowy 
+                //ChannelServices.RegisterChannel(clientChannel, true);
 
-                WellKnownClientTypeEntry remoteType = new WellKnownClientTypeEntry(
-                    typeof(RemoteObject), "tcp://localhost:8085/RemoteObject");
+                //WellKnownClientTypeEntry remoteType = new WellKnownClientTypeEntry(
+                //    typeof(RemoteObject), "tcp://localhost:8085/RemoteObject");
 
-                RemotingConfiguration.RegisterWellKnownClientType(remoteType);
-                string command = Client.ExecuteCommand();
+                //RemotingConfiguration.RegisterWellKnownClientType(remoteType);
+                //string command = Client.ExecuteCommand();
 
-                RemoteObject obj = new RemoteObject(command);
+                //RemoteObject obj = new RemoteObject(command);
                 //var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
                 //            "tcp://localhost:8085/RemoteObject");
+
+                string command = Client.ExecuteCommand();
+                var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
+                               "tcp://localhost:8085/RemoteObject");
+
 
                 Console.WriteLine(obj.AnswerCommand(command));   
             }
