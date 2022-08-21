@@ -24,7 +24,7 @@ namespace Client.Protocols
             //clientWatcher.IncludeSubdirectories = true;
 
             Stopwatch stopWatch = new Stopwatch();
-            string path = @"D:\dokumenty\C#\Communication";
+            string path = @"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication";
             bool waitForRead = true;
 
             try
@@ -38,7 +38,7 @@ namespace Client.Protocols
                 }
                 while (!IsFileLocked(new FileInfo(path + @"\question.out")) && !IsFileLocked(new FileInfo(path + @"\question.in")) && waitForRead)
                 {
-                    Task.Delay(1000);
+                    //Task.Delay(1000);
 
                     using (var fs = new FileStream(path + @"\question.out", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (StreamReader sr = new StreamReader(fs))
@@ -51,7 +51,7 @@ namespace Client.Protocols
                         Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
                         waitForRead = false;
                     }
-                    Task.Delay(1000);
+                   // Task.Delay(1000);
                 }
             }
             catch (Exception e)

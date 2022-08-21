@@ -58,6 +58,7 @@ namespace Client
                         break;
                 }
             }
+            Console.WriteLine("Thank you for using communicator. Good bye!");
         }
         public static string ExecuteCommand()
         {
@@ -66,17 +67,21 @@ namespace Client
             command = Console.ReadLine();
             while (true)
             {
-                    if (command.Contains("ping"))
-                        return Ping.PingCom(command);
+                if (command.Contains("ping"))
+                    return Ping.PingExecute(command);
 
-                    else if (command.Contains("chat"))
-                        return "XYZ";
-                    else 
-                    {
-                        Console.WriteLine("Wrong Option! Choose again! \n");
-                        Console.WriteLine("Give the command:");
-                        command = Console.ReadLine();
-                    }
+                else if (command.Contains("chat"))
+                    return "XYZ";
+                else if (command.Contains("conf"))
+                    return "XYZ";
+                else if (command.Contains("help"))
+                    return "XYZ";
+                else
+                {
+                    Console.WriteLine("Wrong Option! Choose again! \n");
+                    Console.WriteLine("Give the command:");
+                    command = Console.ReadLine();
+                }
             }
         }
     }

@@ -14,10 +14,8 @@ namespace Server
 
         public FileCommunicator(string readFilePath) => this.readFilePath = readFilePath;
 
-      
 
-
-        public void Start(CommandD onCommand, CommunicatorD onDisconnect)
+        public void Listener(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             try
             {
@@ -26,30 +24,38 @@ namespace Server
                 // {
                 using (StreamReader sr = new StreamReader(new FileStream(readFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 {
-                    string writeFilePath = readFilePath.Replace(".in", ".out");
-                    //Console.WriteLine(sr.ReadLine());
-                    using (var fs = new FileStream(writeFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (StreamWriter sw = new StreamWriter(writeFilePath))/// <---- tu problem 
-                    {
-                        data = sr.ReadLine();
-                        //Console.WriteLine(data);
-                        string message = onCommand(data);
-                        // while (sr.EndOfStream)
-                        //{
-                        // data =  sr.ReadLine();
-                        //string message = onCommand(data);
-                        Console.WriteLine(message);
-                        sw.WriteLine(message);
-                        //}
-                    }
+                 
+
+                        string writeFilePath = readFilePath.Replace(".in", ".out");
+                        //Console.WriteLine(sr.ReadLine());
+                        using (var fs = new FileStream(writeFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (StreamWriter sw = new StreamWriter(writeFilePath))/// <---- tu problem 
+                        {
+                            data = sr.ReadLine();
+                            //Console.WriteLine(data);
+                            string message = onCommand(data);
+                            // while (sr.EndOfStream)
+                            //{
+                            // data =  sr.ReadLine();
+                            //string message = onCommand(data);
+                            Console.WriteLine(message);
+                            sw.WriteLine(message);
+                            //}
+                        }
+                    
                 }
                 //}
             }
-            catch (Exception )
+            catch (Exception)
             {
                 onDisconnect(this);
-              //  Console.WriteLine("The process failed {0}", e.ToString());
+                //  Console.WriteLine("The process failed {0}", e.ToString());
             }
+        }
+
+        public void Start(CommandD onCommand, CommunicatorD onDisconnect)
+        {
+            Task.Run(() => Listener(onCommand, onDisconnect));
         }
 
         public void Stop()
@@ -84,24 +90,16 @@ namespace Server
                                          NotifyFilters.DirectoryName; // co dokladnie obserwujemy 
             serverWatcher.EnableRaisingEvents = true;
             serverWatcher.IncludeSubdirectories = true;
-
-
-            //uruchom nasluch w osobnym watku lub ustaw file system watcher
-            //Task.Run(() => ServerWatcherCreated(this.onConnect));
         }
 
         private void ServerWatcherChanged(object sender, FileSystemEventArgs e)
         {
 
-            //if (!FileIsReady(path + @"\question.in"))
-            // {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 onConnect(new FileCommunicator(e.FullPath));
             }
-
             Console.WriteLine($"Changed: {e.FullPath}");
-            //}
         }
 
         private static bool FileIsReady(string path)

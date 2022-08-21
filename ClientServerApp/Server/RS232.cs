@@ -10,8 +10,8 @@ namespace Server
 {
     class RS232Communicator : ICommunicator
     {
-        SerialPort client;
-
+        private SerialPort client;
+        private CommunicatorD onDisconnect;
         public RS232Communicator(SerialPort client) 
         {
             this.client = client;
@@ -27,10 +27,10 @@ namespace Server
                 while (true)
                 {
                     message = client.ReadLine();
-                    Console.WriteLine("- RS-232 - Download: {0}", message);
-                    onCommand(message);
-                    client.WriteLine(message);
-                    Console.WriteLine("- RS-232 - Send: {0}", message);
+                    Console.WriteLine("(RS-232) Download: {0}", message);
+                    string command = onCommand(message);
+                    client.WriteLine(command);
+                    Console.WriteLine("(RS-232) Send: {0}", command);
                 }
             }
             catch (Exception e)
@@ -42,13 +42,16 @@ namespace Server
         }
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
+            this.onDisconnect = onDisconnect;
             Task.Run(() => Run(onCommand, onDisconnect));
         }
 
         public void Stop()
         {
+
             client.Close();
-            Console.WriteLine("- RS232 - Communicator stopped");
+            onDisconnect(this);
+            Console.WriteLine("(RS-232) Communicator stopped");
         }
     }
     class RS232Listner : IListner
@@ -76,7 +79,7 @@ namespace Server
 
         public void Stop()
         {
-            Console.WriteLine("- UDP - Listner stopped");
+            Console.WriteLine("(RS-232) Listner stopped");
         }
     }
 }

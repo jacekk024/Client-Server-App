@@ -11,8 +11,10 @@ namespace Server
     class UDPCommunicator : ICommunicator
     {
         private UdpClient client;
+        private CommunicatorD onDisconnect;
 
-        public UDPCommunicator(UdpClient client) //port lokalny jako 11001
+
+        public UDPCommunicator(UdpClient client) 
         {
             this.client = client;
         }
@@ -22,33 +24,22 @@ namespace Server
           
             try 
             {
-                //IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                //Byte[] bytes = client.Receive(ref RemoteIpEndPoint);
-                //string receiveData = Encoding.ASCII.GetString(bytes);
-
-                //Console.WriteLine("Received {0} from {1}, port {2}",receiveData,RemoteIpEndPoint.Address,RemoteIpEndPoint.Port);
-
-
-                //string receive = onCommand(receiveData);
-                //Byte[] sendData = Encoding.ASCII.GetBytes(receive);
-                //Console.WriteLine("Sent to {0}:{1}: {2}", sendData, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
-                
-                //kolejne wywolanie zawiesza 
-
                 while (true) 
                 {
                     IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                     byte[] bytes = client.Receive(ref RemoteIpEndPoint);
                     string receiveData = Encoding.ASCII.GetString(bytes);
 
-                    Console.WriteLine(" - UDP - Received {0} from {1}, port {2}", receiveData, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                    Console.WriteLine("(UDP) Received {0} from {1}, port {2}", receiveData, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
 
                     string receive = onCommand(receiveData);
-                    byte[] sendData = Encoding.ASCII.GetBytes(receive);
-                    client.Send(sendData, sendData.Length, RemoteIpEndPoint);
-                    Console.WriteLine(" - UDP - Sent to {0}:{1}: {2}", receive, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
 
-                    break;
+                    byte[] sendData = Encoding.ASCII.GetBytes(receive);
+
+                    client.Send(sendData, sendData.Length, RemoteIpEndPoint);
+
+                    Console.WriteLine("(UDP) Sent to {0}:{1}: {2}", receive, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
                 }
             }
             catch (Exception e) 
@@ -59,12 +50,14 @@ namespace Server
         }
         public void Start(CommandD onCommand, CommunicatorD onDisconnect) 
         {
+            this.onDisconnect = onDisconnect;
             Task.Run(() => Run(onCommand, onDisconnect));
         }
 
         public void Stop()
         {
-            Console.WriteLine("- UDP - Communicator stopped");
+            onDisconnect(this);
+            Console.WriteLine("(UDP) Communicator stopped");
         }
     }
 
@@ -89,19 +82,18 @@ namespace Server
             {
                 Console.WriteLine(e.ToString());
             }
-
         }
 
         public void Start(CommunicatorD onConnect)
         {
-            Task.Run(() => Run(onConnect));
+            Task.Run(()=>Run(onConnect));
         }
 
 
         public void Stop()
         {
-            Task.Run(()=> client.Close());
-            Console.WriteLine("- UDP - Listner stopped");
+            client.Close();
+            Console.WriteLine("(UDP) Listner stopped");
         }
     }
 }

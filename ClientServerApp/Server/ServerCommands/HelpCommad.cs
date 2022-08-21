@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Commands;
 
 namespace Server.ServerCommands
 {
-    class PingCommand : IServiceModule
+    class HelpCommad : IServiceModule
     {
-        public string AnswerCommand(string command)  => Ping.Pong(command);
+        public string AnswerCommand(string command)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

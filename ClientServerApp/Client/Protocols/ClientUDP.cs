@@ -15,24 +15,24 @@ namespace Client.Protocols
         public static void StartUDP() 
         {
 
-           // int localPort = 11001; // mozna przekazywac jako argument 
+            int localPort = 11000; // mozna przekazywac jako argument 
             int remotePort = 11001;
             //System.Threading.Thread.Sleep(1000);
-            UdpClient udpClient = new UdpClient();
+            UdpClient udpClient = new UdpClient(localPort);
             Stopwatch stopWatch = new Stopwatch();
 
 
             try
             {
                 string message = Client.ExecuteCommand();
-                Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+                byte[] sendBytes = Encoding.ASCII.GetBytes(message);
 
-                udpClient.Connect("127.0.0.1", remotePort);
+                udpClient.Connect("localhost", remotePort);
                 stopWatch.Start();
                 udpClient.Send(sendBytes, sendBytes.Length);
 
-                IPEndPoint RemoteIPEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0);
-                Byte[] receiveBytes = udpClient.Receive(ref RemoteIPEndPoint);
+                IPEndPoint RemoteIPEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                byte[] receiveBytes = udpClient.Receive(ref RemoteIPEndPoint);
                 stopWatch.Stop();
                 string returnData = Encoding.ASCII.GetString(receiveBytes);
 

@@ -10,7 +10,16 @@ namespace Server.ServerCommands
     {
         public string AnswerCommand(string command)
         {
+
             throw new NotImplementedException();
         }
+
+        AddServiceModule(string name, IServiceModule service) { }
+
+
+
+
+
+
     }
 }

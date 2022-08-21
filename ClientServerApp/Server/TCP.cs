@@ -11,6 +11,7 @@ namespace Server
     class TCPCommunicator : ICommunicator
     {
         TcpClient client;
+        CommunicatorD onDisconnect;
         public TCPCommunicator(TcpClient client)
         {
             this.client = client;
@@ -22,7 +23,7 @@ namespace Server
             string data = string.Empty;
             int len;
             NetworkStream stream = client.GetStream();
-            Console.WriteLine("- TCP - Running Comunicator");
+            Console.WriteLine("(TCP) Running Comunicator");
 
             try
             {
@@ -44,7 +45,7 @@ namespace Server
                         Byte[] msg = Encoding.ASCII.GetBytes(message);
 
                         stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("- TCP - Send: {0}", message);
+                        Console.WriteLine("(TCP) Send: {0}", message);
                         data = string.Empty;
 
                     }
@@ -55,19 +56,20 @@ namespace Server
             catch (Exception e) 
             {
                 Console.WriteLine(e.ToString());
-                onDisconnect(this);
             }
         }
 
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
+            this.onDisconnect = onDisconnect;
             Task.Run(()=>Run(onCommand, onDisconnect)); // w osobnym watku
         }
 
         public void Stop()
         {
             client.Close();
-            Console.WriteLine("- TCP - Communicator stopped");
+            onDisconnect(this);
+            Console.WriteLine("(TCP) Communicator stopped");
         }
     }
 
@@ -85,7 +87,7 @@ namespace Server
         public void Run(CommunicatorD onConnect)
         {
 
-            tcpListener = new TcpListener(IPAddress.Any, port); // <= problem // nieprawidlowo przekazywany adres i port !!!  localAddr, 8080 -- poprawiłem port na 8080 w Server.cs
+            tcpListener = new TcpListener(IPAddress.Any, port); 
             TcpClient client;
 
             tcpListener.Start();
@@ -93,24 +95,24 @@ namespace Server
             while (true)
             {
 
-                client = tcpListener.AcceptTcpClient(); //
+                client = tcpListener.AcceptTcpClient(); 
 
-                Console.WriteLine("- TCP - Connected!"); // po polaczeniu sie klienta z serverem 
+                Console.WriteLine("(TCP) Connected!"); 
 
                 onConnect(new TCPCommunicator(client));
 
-                Console.WriteLine("- TCP - Connected with: " + client.Client.RemoteEndPoint); // <= tutaj kod nie wchodzi 
+                Console.WriteLine("(TCP) Connected with: " + client.Client.RemoteEndPoint); 
             }
         }
 
         public void Start(CommunicatorD onConnect)
         {
-             Task.Run(()=>Run(onConnect)); // w osobnym watku  // problem z funckja start
+             Task.Run(()=>Run(onConnect)); // w osobnym watku  
         }
         public void Stop()
         {
             Task.Run(()=>tcpListener.Stop());
-            Console.WriteLine("- TCP - Listner stopped");
+            Console.WriteLine("(TCP) Listner stopped");
         }
 
     }

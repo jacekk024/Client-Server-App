@@ -52,6 +52,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="ServerCommands\ChatCommand.cs" />
     <Compile Include="ServerCommands\ConfCommand.cs" />
+    <Compile Include="ServerCommands\HelpCommad.cs" />
     <Compile Include="ServerCommands\PingCommand.cs" />
     <Compile Include="TCP.cs" />
     <Compile Include="UDP.cs" />

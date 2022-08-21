@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
@@ -12,42 +13,27 @@ namespace Client.Protocols
 {
     class ClientNETRemoting
     {
-        public delegate string CommandD(string command);
         public static void StartNETRemoting() 
         {
-
             try
             {
-                //TcpChannel clientChannel = new TcpChannel(); // w kliencie mozna konstruktor bez argumentowy 
-                //ChannelServices.RegisterChannel(clientChannel, true);
 
-                //WellKnownClientTypeEntry remoteType = new WellKnownClientTypeEntry(
-                //    typeof(RemoteObject), "tcp://localhost:8085/RemoteObject");
-
-                //RemotingConfiguration.RegisterWellKnownClientType(remoteType);
-                //string command = Client.ExecuteCommand();
-
-                //RemoteObject obj = new RemoteObject(command);
-                //var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
-                //            "tcp://localhost:8085/RemoteObject");
+                Stopwatch stopWatch = new Stopwatch();
 
                 string command = Client.ExecuteCommand();
+                ChannelServices.RegisterChannel(new TcpChannel(),false);// gdy dodane true zrywa polaczenie
+
+                stopWatch.Start();
                 var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
-                               "tcp://localhost:8085/RemoteObject");
+                               "tcp://localhost:8082/RemoteObject");
 
-
-                Console.WriteLine(obj.AnswerCommand(command));   
+                Console.WriteLine(obj.AnswerCommand(command));
+                Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
         }
-
-        public static string Answer(string command) 
-        {
-            return command;
-        }
-
     }
 }

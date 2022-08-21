@@ -15,34 +15,26 @@ namespace Server
     {
 
         private TcpChannel serverChannel;
-
+        CommunicatorD onDisconnect;
         public NETRemotingCommunicator(TcpChannel serverChannel) 
         {
             this.serverChannel = serverChannel;
-        }  
-
+        }
 
         public void Run(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             try
             {
                 ChannelServices.RegisterChannel(serverChannel, false);
+                RemotingConfiguration.RegisterWellKnownServiceType(typeof
+                                              (RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
 
-                //RemotingConfiguration.RegisterWellKnownServiceType(typeof
-                //             (RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
-
-                RemoteObject remoteObject = new RemoteObject();
-                remoteObject.SetAnswer(new RemoteObject.CommandD(onCommand));
+                RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
+           
                 RemotingServices.Marshal(remoteObject, "RemoteObject");
 
-                // RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
-                //s remoteObject.AnswerCommand();
-                //RemotingServices.Marshal(remoteObject, "AnswerCommand");
-
-
-                //Console.WriteLine("Listening on {0}",
-                //                  serverChannel.GetChannelUri());
                 //ShowServerConfiguration();
+
             }
             catch (Exception e)
             {
@@ -53,12 +45,15 @@ namespace Server
 
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
+            this.onDisconnect = onDisconnect;
             Task.Run(() => Run( onCommand,onDisconnect));
         }
 
         public void Stop()
         {
+            onDisconnect(this);
             ChannelServices.UnregisterChannel(serverChannel);
+            Console.WriteLine("(.NET Remoting) Communicator stopped");
         }
 
         private static void ShowServerConfiguration() 
@@ -71,7 +66,7 @@ namespace Server
             }
             WellKnownServiceTypeEntry[] entries = RemotingConfiguration.GetRegisteredWellKnownServiceTypes();
             foreach (var entry in entries)
-                Console.WriteLine("Object: {0}",entry.ObjectUri);
+                Console.WriteLine("Object: {0}", entry.ObjectUri);
         }
 
         private static void ShowChannelInfo(IChannel serverChannel) 
@@ -105,12 +100,11 @@ namespace Server
         {
             serverChannel = new TcpChannel(port);
             onConnect(new NETRemotingCommunicator(serverChannel));
-            Console.WriteLine("[.NET Remoting] Waiting for clients!");
         }
 
         public void Stop()
         {
-            Console.WriteLine(" - NETRemoting - Listner Stopped");
+            Console.WriteLine("(NETRemoting) Listner Stopped");
         }
     }
 }

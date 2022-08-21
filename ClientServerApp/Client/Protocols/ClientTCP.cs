@@ -10,8 +10,6 @@ namespace Client.Protocols
 {
     class ClientTCP
     {
-      
-
         public static void StartTCP()
         {
             try
@@ -44,17 +42,12 @@ namespace Client.Protocols
                         stopWatch.Stop();
                         odp += System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                     }
-                    while (stream.DataAvailable); // tu zabrane 
-
-
+                    while (stream.DataAvailable); // 
 
                     Console.WriteLine("Download: {0}", odp);
                     Console.WriteLine("Time elapsed: " + stopWatch.Elapsed);
                     stream.Close();
-
-               // }
-                //stream.Close();
-                //client.Close();
+                    client.Close();
             }
             catch (ArgumentNullException e)
             {

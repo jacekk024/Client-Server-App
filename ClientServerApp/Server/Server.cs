@@ -14,11 +14,11 @@ namespace Server
     class Server
     {
 
-        List<ICommunicator> communicators = new List<ICommunicator>(); // collection answerers
+        List<ICommunicator> communicators = new List<ICommunicator>(); // kolekcja odpowiaczy - komunikatorow
 
-        List<IListner> listners = new List<IListner>(); //collection listeners
+        List<IListner> listeners = new List<IListner>(); //kolekcja nasluchiwaczy
 
-        Dictionary<string, IServiceModule> services = new Dictionary<string, IServiceModule>();
+        Dictionary<string, IServiceModule> services = new Dictionary<string, IServiceModule>(); // slownik uslug
 
         private object lockListener = new object();
         private object lockComunnicator = new object();
@@ -26,9 +26,9 @@ namespace Server
 
         public void AddServiceModule(string name, IServiceModule service) 
         {
+            Console.WriteLine("- SERVER - New Service Added- {0}!",name);
             services.Add(name, service);
         }
-
 
         public void AddCommunicator(ICommunicator communicator)
         {
@@ -45,7 +45,7 @@ namespace Server
         {
             lock (lockListener)
             {
-                Task.Run(() => listners.Add(listner)); // w osobnym watku
+                Task.Run(() => listeners.Add(listner)); // w osobnym watku
                 listner.Start(new CommunicatorD(AddCommunicator));
             }
             Console.WriteLine("- SERVER - Listener Added!");
@@ -53,16 +53,26 @@ namespace Server
 
         public void RemoveCommunicator(ICommunicator communicator)
         {
-            // wybor listnera
-
-
-            communicators.Remove(communicator);//usuwanie z listu communicators ?? 
+              var _communicator = communicators.Find(obj => obj.Equals(communicator));
+            _communicator.Stop();
+            Console.WriteLine("Communicator stoped: {0}", _communicator.ToString());
+            lock (lockComunnicator)
+            {
+                communicators.Remove(_communicator);
+            }
+            Console.WriteLine("Communicator removed: {0}", _communicator.ToString());
         }
 
-        public void RemoveListener(IListner listner) 
+        public void RemoveListener(IListner listener) //
         {
+            var _listener = listeners.Find(obj => obj.Equals(listener));
 
-
+            _listener.Stop();
+            Console.WriteLine("Listener stoped: {0}", _listener.ToString());
+            lock (lockListener) 
+            {
+                listeners.Remove(_listener);
+            }
             Console.WriteLine("- SERVER - Listener Removed!");
         }
 
@@ -79,23 +89,23 @@ namespace Server
             
         public void Start() 
         {
-            foreach (var listener in listners) // dodac startowanie komunikatorow bo teraz nic nie startuje tego TCP! DAJESZ ZROB TEN PROJEKT NYGUSIE !!!!
+            foreach (var listener in listeners) 
                 listener.Start(new CommunicatorD(AddCommunicator));
         }
         public void Stop()
         {
-            foreach (var listener in listners)
+            foreach (var listener in listeners)
                 listener.Stop();
 
             foreach (var communicator in communicators)
                 communicator.Stop();
 
-            listners.Clear();
+            listeners.Clear();
             communicators.Clear();
             services.Clear();
         }
 
-        void TaskDelay() // kluczowe jesli serwer ma chodzic i zeby dodac listnery w nowych watkach 
+        void TaskDelay() 
         {
             while (communicators.Count != 0) 
                 Task.Delay(1000);
@@ -108,20 +118,22 @@ namespace Server
         {
             Console.WriteLine("- SERVER - Running Server!");
             var server = new Server();
+
             server.AddServiceModule("ping", new PingCommand());
+            server.AddServiceModule("chat", new ChatCommand());
+            server.AddServiceModule("conf", new ConfCommand());
+            server.AddServiceModule("help", new HelpCommad());
+
 
             server.Start();
 
             server.AddListner(new TCPListener(12345));
             server.AddListner(new UDPListner(11001));
             //server.AddListner(new RS232Listner("COM3", 9600, Parity.None, 8, StopBits.One));
-            server.AddListner(new NETRemotingListner(8085));
-            server.AddListner(new FileListner(@"D:\dokumenty\C#\Communication"));
+            server.AddListner(new NETRemotingListner(8082));
+            server.AddListner(new FileListner(@"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication"));
 
-            //oczekiwanie na zamkniecie wszystkich uslug 
-            //dodac pomiar czasu przesylu pakietu 
             server.TaskDelay();
-
             server.Stop();
         }
 

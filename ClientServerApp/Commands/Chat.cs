@@ -17,8 +17,6 @@ namespace Commands
 
         static string WhoAmI() 
         {
-
-
             return "XYZ";    
         }
 
