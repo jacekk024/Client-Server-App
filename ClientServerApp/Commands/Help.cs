@@ -8,52 +8,67 @@ namespace Commands
 {
     public class Help
     {
-        static string ShowCommands() 
+        public static string HelpExecute(string command) 
         {
-
-            while (true) 
+            Console.WriteLine("Which service description you need?\n" +
+                "*default \n*ping \n*chat \n*conf\n");
+            command = Console.ReadLine();
+            var obj = command.Trim('\n',' ');
+            while (true) // serwer powinien odsylac odpowiednie odpowiedzi
             {
-                Console.WriteLine("Choose ");
-                string command = Console.ReadLine();
-                var obj = command.Trim(' ');
                 switch (obj)
                 {
                     case "default":
-                        return Default();
-
+                        return "help deafult";
                     case "ping":
-                        return Ping();
-
+                        return "help ping";
                     case "chat":
-                        return Chat();
-
+                        return "help chat";
                     case "conf":
-                        return Conf();
+                        return "help conf";
                     default:
-                        Console.WriteLine("Choose wrong option! Choose again");
+                        Console.WriteLine("Wrong option! Choose again.");
+                        obj = Console.ReadLine();
+                        obj.Trim('\n', ' ');
                         break;
                 }
             }
         }
 
-        static string Default() 
+        public static string Default()
         {
-            return "";
+            return "\nTo communicate with server use should choose type of communicator and service that you want use.\n" +
+                "Ping - use to measure speed of connection\n" +
+                "Chat - basic communication between clients\n"+
+                "Conf - configuration of server`s API\n"+
+                "Help - gives information about available services\n";
         }
 
-        static string Ping()
+        public static string Ping()
         {
-            return "";
+            return "\n [ping] [trash length] [message]\n" + "This function allows to measure speed of specific communicator such as:\n" +
+                "*TCP*\n" +
+                "*UDP*\n" +
+                "*File communication*\n" +
+                "*RS-232*\n" +
+                "*.Net Remoting*\n" +
+                "\nExamples of configuration ping command:\n" +
+                "send: [ping] [your-length] [your-message]; response: [pong] [trash-length] [your message]\n" +
+                "send: [ping] [your-length] []; response: [pong] [trash-length] [message!]\n" +
+                "send: [ping] [] [your-message]; response: [pong] [10-length trash] [your message]\n" +
+                "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n" +
+                "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n";
+               
         }
 
-        static string Chat()
+        public static string Chat()
         {
-            return "";
+            return "Need to add!!!";
         }
 
-        static string Conf()
+        public static string Conf()
         {
-            return "";
+            return "Need to add!!!";
         }
 
     }

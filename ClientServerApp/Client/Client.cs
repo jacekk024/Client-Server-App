@@ -75,7 +75,7 @@ namespace Client
                 else if (command.Contains("conf"))
                     return "XYZ";
                 else if (command.Contains("help"))
-                    return "XYZ";
+                    return Help.HelpExecute(command);
                 else
                 {
                     Console.WriteLine("Wrong Option! Choose again! \n");

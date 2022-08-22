@@ -39,7 +39,7 @@ namespace Server
 
                     client.Send(sendData, sendData.Length, RemoteIpEndPoint);
 
-                    Console.WriteLine("(UDP) Sent to {0}:{1}: {2}", receive, RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                    Console.WriteLine("(UDP) Sent to {0}:{1}: {2}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port, receive);
                 }
             }
             catch (Exception e) 
