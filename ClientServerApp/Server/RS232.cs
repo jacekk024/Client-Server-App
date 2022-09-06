@@ -21,9 +21,10 @@ namespace Server
         public void Run(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             string message;
-            client.Open();         
+   
             try
             {
+                client.Open();
                 while (true)
                 {
                     message = client.ReadLine();
@@ -33,10 +34,10 @@ namespace Server
                     Console.WriteLine("(RS-232) Send: {0}", command);
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                Console.WriteLine(e.ToString());
-                onDisconnect(this);
+                Console.WriteLine("Cannot open RS-232 connection!");
+                Stop();
             }
         
         }

@@ -16,9 +16,9 @@ namespace Server
 
         List<ICommunicator> communicators = new List<ICommunicator>(); // kolekcja odpowiaczy - komunikatorow
 
-        List<IListner> listeners = new List<IListner>(); //kolekcja nasluchiwaczy
+        public List<IListner> listeners = new List<IListner>(); //kolekcja nasluchiwaczy
 
-        Dictionary<string, IServiceModule> services = new Dictionary<string, IServiceModule>(); // slownik uslug
+        public Dictionary<string, IServiceModule> services = new Dictionary<string, IServiceModule>(); // slownik uslug
 
         private object lockListener = new object();
         private object lockComunnicator = new object();
@@ -43,37 +43,39 @@ namespace Server
 
         public void AddListner(IListner listner)
         {
+            listeners.Add(listner); // w osobnym watku
             lock (lockListener)
             {
-                Task.Run(() => listeners.Add(listner)); // w osobnym watku
-                listner.Start(new CommunicatorD(AddCommunicator));
+                Task.Run(()=>listner.Start(new CommunicatorD(AddCommunicator)));
             }
             Console.WriteLine("- SERVER - Listener Added!");
         }
 
         public void RemoveCommunicator(ICommunicator communicator)
         {
-              var _communicator = communicators.Find(obj => obj.Equals(communicator));
-            _communicator.Stop();
-            Console.WriteLine("Communicator stoped: {0}", _communicator.ToString());
             lock (lockComunnicator)
             {
-                communicators.Remove(_communicator);
+                communicators.Remove(communicator);
             }
-            Console.WriteLine("Communicator removed: {0}", _communicator.ToString());
+            Console.WriteLine("Communicator removed: {0}", communicator.ToString());
         }
 
         public void RemoveListener(IListner listener) //
         {
-            var _listener = listeners.Find(obj => obj.Equals(listener));
+            var _listener = listeners.Find(x => x.Equals(listener));
 
-            _listener.Stop();
-            Console.WriteLine("Listener stoped: {0}", _listener.ToString());
             lock (lockListener) 
             {
+                _listener.Stop();
                 listeners.Remove(_listener);
             }
-            Console.WriteLine("- SERVER - Listener Removed!");
+            Console.WriteLine("- SERVER - Listener Stopped!");
+        }
+
+        public void RemoveServiceModule(string name)
+        {
+            services.Remove(name);
+            Console.WriteLine("- SERVER - Service Module Removed!");
         }
 
         public string Answer(string command)
@@ -82,7 +84,7 @@ namespace Server
             {
                 string serviceName = command.Split()[0];
                 if (services.ContainsKey(serviceName)) return services[serviceName].AnswerCommand(command);
-                return "Services is unavailable.";
+                return "Service is unavailable.";
             }
             return "Command was null!";
         }
@@ -113,7 +115,6 @@ namespace Server
                 Task.Delay(1000);
         }
 
-
         static void Main() 
         {
             Console.WriteLine("- SERVER - Running Server!");
@@ -121,21 +122,21 @@ namespace Server
 
             server.AddServiceModule("ping", new PingCommand());
             server.AddServiceModule("chat", new ChatCommand());
-            server.AddServiceModule("conf", new ConfCommand());
+            server.AddServiceModule("conf", new ConfCommand(server));
             server.AddServiceModule("help", new HelpCommad());
 
 
             server.Start();
 
-            server.AddListner(new TCPListener(12345));
+            server.AddListner(new TCPListener("127.0.0.1",12345));
             server.AddListner(new UDPListner(11001));
-            //server.AddListner(new RS232Listner("COM3", 9600, Parity.None, 8, StopBits.One));
+            server.AddListner(new RS232Listner("COM3", 9600, Parity.None, 8, StopBits.One));
             server.AddListner(new NETRemotingListner(8082));
             server.AddListner(new FileListner(@"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication"));
 
             server.TaskDelay();
             server.Stop();
-        }
 
+        }
     }
 }

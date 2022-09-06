@@ -76,18 +76,20 @@ namespace Server
     class TCPListener : IListner
     {
         int port;
+        string ip;
         TcpListener tcpListener;
 
 
-        public TCPListener(int port)
+        public TCPListener(string ip,int port)
         {
             this.port = port;
+            this.ip = ip;
         }
 
         public void Run(CommunicatorD onConnect)
         {
 
-            tcpListener = new TcpListener(IPAddress.Any, port); 
+            tcpListener = new TcpListener(IPAddress.Parse(ip), port); 
             TcpClient client;
 
             tcpListener.Start();
@@ -111,7 +113,7 @@ namespace Server
         }
         public void Stop()
         {
-            Task.Run(()=>tcpListener.Stop());
+            tcpListener.Stop();
             Console.WriteLine("(TCP) Listner stopped");
         }
 

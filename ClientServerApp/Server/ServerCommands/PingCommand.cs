@@ -9,6 +9,6 @@ namespace Server.ServerCommands
 {
     class PingCommand : IServiceModule
     {
-        public string AnswerCommand(string command)  => Ping.Pong(command);
+        public string AnswerCommand(string command)  => Ping.Pong(command); 
     }
 }

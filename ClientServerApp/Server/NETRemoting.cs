@@ -104,7 +104,7 @@ namespace Server
 
         public void Stop()
         {
-            Console.WriteLine("(NETRemoting) Listner Stopped");
+            Console.WriteLine("(.NET Remoting) Listner Stopped");
         }
     }
 }

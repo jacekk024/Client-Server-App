@@ -68,8 +68,12 @@ namespace Commands
 
         public static string Conf()
         {
-            return "Need to add!!!";
+            return "\n[conf] [add]/[remove] [listener]/[service]\n" +
+                "\nExamples of configuration:\n" +
+                "conf addservice ping/chat/help/conf\n" +
+                "conf removeservice ping/chat/help/conf\n" +
+                "conf addlistener tcplistener adress port\n" +
+                "conf addlistener udplistener port";
         }
-
     }
 }

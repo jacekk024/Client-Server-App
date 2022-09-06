@@ -67,13 +67,12 @@ namespace Client
             command = Console.ReadLine();
             while (true)
             {
-                if (command.Contains("ping"))
+                if (command.Contains("ping") && !command.Contains("conf"))
                     return Ping.PingExecute(command);
-
                 else if (command.Contains("chat"))
-                    return "XYZ";
+                    return command;
                 else if (command.Contains("conf"))
-                    return "XYZ";
+                    return command;
                 else if (command.Contains("help"))
                     return Help.HelpExecute(command);
                 else
