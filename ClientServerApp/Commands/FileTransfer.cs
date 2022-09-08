@@ -38,7 +38,7 @@ namespace Commands
                 return list;
             }
             else
-                return "No such directory!";     
+                return "(file) No such directory!";     
         }
         static string GetFile(string command)
         {

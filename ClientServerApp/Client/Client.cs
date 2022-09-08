@@ -54,7 +54,7 @@ namespace Client
                         flag = false;
                         break;
 
-                    default: Console.WriteLine("Choose wrong option! Choose again");
+                    default: Console.WriteLine("Chose wrong option! Choose again");
                         break;
                 }
             }

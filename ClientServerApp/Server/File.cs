@@ -13,35 +13,24 @@ namespace Server
         CommunicatorD onDisconnect;
         public FileCommunicator(string readFilePath) => this.readFilePath = readFilePath;
 
-        public async void Listener(CommandD onCommand, CommunicatorD onDisconnect) 
+        public  void Listener(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             try
             {
                 string data;
-                // while (!shoulTerminate) 
-                // {
                 using (StreamReader sr = new StreamReader(new FileStream(readFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 {
                  
 
-                        string writeFilePath = readFilePath.Replace(".in", ".out");
-                        //Console.WriteLine(sr.ReadLine());
-                        using (var fs = new FileStream(writeFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        using (StreamWriter sw = new StreamWriter(writeFilePath))/// <---- tu problem 
+                        string writeFilePath = readFilePath.Replace(".in", ".out");                
+                        using (StreamWriter sw = new StreamWriter(writeFilePath))
                         {
-                            data = sr.ReadLine();
-                            //Console.WriteLine(data);
+                            data = sr.ReadLine(); // komenda miesci sie w jednej linii
                             string message = onCommand(data);
-                            // while (sr.EndOfStream)
-                            //{
-                            // data =  sr.ReadLine();
-                            //string message = onCommand(data);
-                            await sw.WriteLineAsync(message);
-                            //}
+                            sw.WriteLine(message);
                         }
                     
                 }
-                //}
             }
             catch (Exception)
             {
@@ -57,8 +46,7 @@ namespace Server
 
         public void Stop()
         {
-            onDisconnect(this);
-            //shoulTerminate = true;
+            onDisconnect(this);       
             Console.WriteLine("- File - File Disconnected!");
         }
     }
@@ -81,7 +69,6 @@ namespace Server
             serverWatcher.Changed += ServerWatcherChanged;
             serverWatcher.Filter = "*.in";
             serverWatcher.NotifyFilter = NotifyFilters.LastWrite |
-                                         NotifyFilters.LastAccess |
                                          NotifyFilters.FileName |
                                          NotifyFilters.DirectoryName; // co dokladnie obserwujemy 
             serverWatcher.EnableRaisingEvents = true;
@@ -95,7 +82,7 @@ namespace Server
             {
                 onConnect(new FileCommunicator(e.FullPath));
             }
-            Console.WriteLine($"Changed: {e.FullPath}");
+           // Console.WriteLine($"Changed: {e.FullPath}"); wypisywanie 
         }
 
         public void Stop()

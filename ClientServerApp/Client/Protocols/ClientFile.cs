@@ -11,47 +11,36 @@ namespace Client.Protocols
     class ClientFile
     {
 
-        public static async void StartFile()
+        private static string path;
+        private static Stopwatch stopWatch;
+        private static bool waitForEnd;
+        private static string command;
+
+
+        public static  void StartFile()
         {
-            //klient odczytuje komende
-            //FileSystemWatcher clientWatcher = new FileSystemWatcher(path);
-            //clientWatcher.Changed += ClientWatcherCreated;
-            //clientWatcher.Filter = " *.out";
-            //clientWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess | NotifyFilters.DirectoryName | NotifyFilters.FileName;
+            stopWatch = new Stopwatch();
+            path = @"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication";
+            FileSystemWatcher clientWatcher = new FileSystemWatcher(path);
 
-            //clientWatcher.EnableRaisingEvents = true;
-            //clientWatcher.IncludeSubdirectories = true;
-
-            Stopwatch stopWatch = new Stopwatch();
-            string path = @"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication";
-            bool waitForRead = true;
+            clientWatcher.Changed += ClientWatcherChanged;
+            clientWatcher.Filter = "*.out";
+            clientWatcher.NotifyFilter = NotifyFilters.LastWrite |
+                                         NotifyFilters.FileName |
+                                         NotifyFilters.DirectoryName; // co dokladnie obserwujemy 
+            clientWatcher.EnableRaisingEvents = true;
+            clientWatcher.IncludeSubdirectories = true;
 
             try
             {
-
-                string command = Client.ExecuteCommand();
+                command = Client.ExecuteCommand();
                 stopWatch.Start();
-                using (StreamWriter sr = new StreamWriter(path + @"\question.in"))
+                waitForEnd = true;
+                using (StreamWriter sw = new StreamWriter(path + @"\question.in"))
                 {
-                    await sr.WriteLineAsync(command);
+                     sw.WriteLine(command);
                 }
-                while (!IsFileLocked(new FileInfo(path + @"\question.out")) && !IsFileLocked(new FileInfo(path + @"\question.in")) && waitForRead)
-                {
-                    //Task.Delay(1000);
-
-                    using (var fs = new FileStream(path + @"\question.out", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        string line;
-                        Console.Write("- File - Download: ");
-                        while ((line = await sr.ReadLineAsync()) != null)
-                            Console.WriteLine(line);
-                        stopWatch.Stop();
-                        if(command.Split()[0].Contains("ping"))Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
-                        waitForRead = false;
-                    }
-                   // Task.Delay(1000);
-                }
+                while (waitForEnd);
             }
             catch (Exception)
             {
@@ -60,50 +49,30 @@ namespace Client.Protocols
             }
         }
 
-        static bool IsFileLocked(FileInfo file)
+        private  static void ClientWatcherChanged(object sender, FileSystemEventArgs e)
         {
-            try
+
+            if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                try
+                {                  
+                    using (StreamReader sr = new StreamReader(path + @"\question.out"))
+                    {
+                        string line;
+                        Console.Write("- File - Download: ");
+                        while ((line =  sr.ReadLine()) != null)
+                            Console.WriteLine(line);
+                        stopWatch.Stop();
+                        if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
+                        waitForEnd = false;
+                    }
+                }
+                catch (Exception) 
                 {
-                    stream.Close();
+                    Console.WriteLine("Can not read file!");                
                 }
             }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-            //file is not locked
-            return false;
+           // Console.WriteLine($"Changed: {e.FullPath}"); wypisywanie jaka sciezka byla zmodyfikowana
         }
-
-        //public void Start(CommunicatorD onConnect)
-        //{
-        //    this.onConnect = onConnect;
-        //    serverWatcher.Changed += ServerWatcherChanged;
-        //    serverWatcher.Filter = "*.in";
-        //    serverWatcher.NotifyFilter = NotifyFilters.LastWrite |
-        //                                 NotifyFilters.LastAccess |
-        //                                 NotifyFilters.FileName |
-        //                                 NotifyFilters.DirectoryName; // co dokladnie obserwujemy 
-        //    serverWatcher.EnableRaisingEvents = true;
-        //    serverWatcher.IncludeSubdirectories = true;
-        //}
-
-        //private void ServerWatcherChanged(object sender, FileSystemEventArgs e)
-        //{
-
-        //    if (e.ChangeType == WatcherChangeTypes.Changed)
-        //    {
-        //        onConnect(new FileCommunicator(e.FullPath));
-        //    }
-        //    Console.WriteLine($"Changed: {e.FullPath}");
-        //}
-
-
     }
 }

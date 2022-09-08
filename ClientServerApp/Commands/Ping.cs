@@ -18,7 +18,7 @@ namespace Commands
             {
                 if (tab.Length < 2 ) // jesli sam ping
                 {
-                    Console.WriteLine("(PING) Send default message!");
+                    Console.WriteLine("(ping) Send default message!");
                     string[] temp = new string[] { tab[0], Convert.ToString(10), "message!" };
                     string response = String.Join(" ", temp);
                     return $"{response.Split()[0]} {response.Split()[1]} {response.Split()[2]}";
@@ -41,8 +41,8 @@ namespace Commands
             }
             else if(tab.Length > 3)// jesli ping 20 abcd cbda cdek - za duzo argumentow
             {
-                Console.WriteLine("(PING) Too many arguments!");
-                Console.WriteLine("(PING) Send default message!");
+                Console.WriteLine("(ping) Too many arguments!");
+                Console.WriteLine("(ping) Send default message!");
 
                 tab[1] = Convert.ToString(10);
                 tab[2] = "message!";
@@ -70,7 +70,7 @@ namespace Commands
         {
             string[] tab = command.Split();
 
-            return $"pong {GenerateRand(int.Parse(tab[1]))} :: {tab[2]}";
+            return $"(ping) pong {GenerateRand(int.Parse(tab[1]))} :: {tab[2]}";
         }
 
         public static string GenerateRand(int length) 

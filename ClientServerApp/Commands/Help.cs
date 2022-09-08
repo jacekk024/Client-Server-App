@@ -10,8 +10,8 @@ namespace Commands
     {
         public static string HelpExecute(string command) 
         {
-            Console.WriteLine("Which service description you need?\n" +
-                "*default \n*ping \n*chat \n*conf\n");
+            Console.WriteLine("please type service you need:\n" +
+                "default\nping\nchat\nconf\n");
             command = Console.ReadLine();
             var obj = command.Trim('\n',' ');
             while (true) // serwer powinien odsylac odpowiednie odpowiedzi
@@ -39,16 +39,17 @@ namespace Commands
 
         public static string Default()
         {
-            return "\nTo communicate with server use should choose type of communicator and service that you want use.\n" +
-                "Ping - use to measure speed of connection\n" +
-                "Chat - basic communication between clients\n"+
-                "Conf - configuration of server`s API\n"+
-                "Help - gives information about available services\n";
+            return "\n(help) To communicate with server use should choose type of communicator and service that you want use.\n" +
+                "ping - use to measure speed of connection\n" +
+                "chat - basic communication between clients\n" +
+                "conf - configuration of server`s API\n" +
+                "help - gives information about available services\n" +
+                "file - file transfer- downloand/send data to binary file\n";
         }
 
         public static string Ping()
         {
-            return "\n [ping] [trash length] [message]\n" + "This function allows to measure speed of specific communicator such as:\n" +
+            return "\n(help) [ping] [trash length] [message]\n" + "This function allows to measure speed of specific communicator such as:\n" +
                 "*TCP*\n" +
                 "*UDP*\n" +
                 "*File communication*\n" +
@@ -60,20 +61,31 @@ namespace Commands
                 "send: [ping] [] [your-message]; response: [pong] [10-length trash] [your message]\n" +
                 "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n" +
                 "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n";
-               
         }
 
         public static string Chat()
         {
-            return "Need to add!!!";
+            return "(help) [chat] [option-to-use] [my-id] [id-send-to] [message]\n" + "Simple chat to communicate with other clients.\n" +
+                "[chat] [send] [my-id] [id-send-to] [message] - Send message to specific client.\n" +
+                "[chat] [get] [my-id] - Get message sent to specific client.\n" +
+                "[chat] [who] - Show list of available users which have message to read.\n";
         }
+
+        public static string File() 
+        {
+            return "(help) [file] [option-to-use] [filename] [data]\n" + "This service allows send/read data to binary file and show list of files in server base.\n" +
+                "[file] [dir] - show list of available files in server,\n" +
+                "[file] [put] [filename] [data] - put binary data in existing file or create file with specific binary data,\n" +
+                "[file] [get] [filename] - get data from binary file- encrypted as text\n";
+        }
+
 
         public static string Conf()
         {
-            return "\n[conf] [add]/[remove] [listener]/[service]\n" +
+            return "\n(help) [conf] [add]/[remove]/[infoservice]/ [listener]/[service]\n" + "This method allows to configure services and media of server." +
                 "\nExamples of configuration:\n" +
                 "conf addservice ping/chat/help/conf\n" +
-                "conf removeservice ping/chat/help/conf\n" +
+                "conf removeservice ping/chat/help/conf/file\n" +
                 "conf addlistener tcplistener adress port\n" +
                 "conf addlistener udplistener port";
         }
