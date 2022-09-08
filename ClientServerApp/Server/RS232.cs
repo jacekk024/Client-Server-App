@@ -21,7 +21,6 @@ namespace Server
         public void Run(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             string message;
-   
             try
             {
                 client.Open();
@@ -30,7 +29,9 @@ namespace Server
                     message = client.ReadLine();
                     Console.WriteLine("(RS-232) Download: {0}", message);
                     string command = onCommand(message);
+                    client.NewLine = "\r\n";
                     client.WriteLine(command);
+
                     Console.WriteLine("(RS-232) Send: {0}", command);
                 }
             }

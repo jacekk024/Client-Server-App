@@ -47,9 +47,9 @@ namespace Server.ServerCommands
                 info += "\n" + "Number of services:" + serv.services.Count.ToString() + "\n";
                 foreach (var service in serv.services)
                     info += service.Key + "\n";
-                return info;
+                return info+"\r\n";
             }
-            return "There is no medias!";
+            return "(conf) There is no medias!\r\n";
         }
 
         public string ShowMedia() 
@@ -61,9 +61,9 @@ namespace Server.ServerCommands
                 info +="\n" + "Number of listeners:" + serv.listeners.Count.ToString() + "\n";
                 foreach (var listner in serv.listeners)
                     info += listner.ToString() + "\n";
-                return info;
+                return info+"\r\n";
             }
-            return "There is no medias!";
+            return "There is no medias!\r\n";
         }
 
         public string AddServiceModule(string command)

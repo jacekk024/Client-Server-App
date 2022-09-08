@@ -44,7 +44,7 @@ namespace Commands
                 "chat - basic communication between clients\n" +
                 "conf - configuration of server`s API\n" +
                 "help - gives information about available services\n" +
-                "file - file transfer- downloand/send data to binary file\n";
+                "file - file transfer- downloand/send data to binary file\r\n";
         }
 
         public static string Ping()
@@ -60,7 +60,7 @@ namespace Commands
                 "send: [ping] [your-length] []; response: [pong] [trash-length] [message!]\n" +
                 "send: [ping] [] [your-message]; response: [pong] [10-length trash] [your message]\n" +
                 "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n" +
-                "send: [ping] [] []; response: [pong] [10-length trash] [message!]\n";
+                "send: [ping] [] []; response: [pong] [10-length trash] [message!]\r\n";
         }
 
         public static string Chat()
@@ -68,7 +68,7 @@ namespace Commands
             return "(help) [chat] [option-to-use] [my-id] [id-send-to] [message]\n" + "Simple chat to communicate with other clients.\n" +
                 "[chat] [send] [my-id] [id-send-to] [message] - Send message to specific client.\n" +
                 "[chat] [get] [my-id] - Get message sent to specific client.\n" +
-                "[chat] [who] - Show list of available users which have message to read.\n";
+                "[chat] [who] - Show list of available users which have message to read.\r\n";
         }
 
         public static string File() 
@@ -76,7 +76,7 @@ namespace Commands
             return "(help) [file] [option-to-use] [filename] [data]\n" + "This service allows send/read data to binary file and show list of files in server base.\n" +
                 "[file] [dir] - show list of available files in server,\n" +
                 "[file] [put] [filename] [data] - put binary data in existing file or create file with specific binary data,\n" +
-                "[file] [get] [filename] - get data from binary file- encrypted as text\n";
+                "[file] [get] [filename] - get data from binary file- encrypted as text\r\n";
         }
 
 
@@ -87,7 +87,7 @@ namespace Commands
                 "conf addservice ping/chat/help/conf\n" +
                 "conf removeservice ping/chat/help/conf/file\n" +
                 "conf addlistener tcplistener adress port\n" +
-                "conf addlistener udplistener port";
+                "conf addlistener udplistener port\r\n";
         }
     }
 }

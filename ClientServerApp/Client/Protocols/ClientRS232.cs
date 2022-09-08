@@ -15,7 +15,7 @@ namespace Client.Protocols
         {
             Stopwatch stopWatch = new Stopwatch();
             SerialPort serial = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
-
+            
             try
             {
                 string command = Client.ExecuteCommand();
@@ -25,7 +25,8 @@ namespace Client.Protocols
                 
                 serial.WriteLine(command);
                 stopWatch.Stop();
-                string returnMessage =serial.ReadLine();
+                serial.NewLine = "\r\n";
+                string returnMessage = serial.ReadLine();
 
                 Console.WriteLine("Download: {0}", returnMessage);
                 if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed: {0}", stopWatch.Elapsed);
