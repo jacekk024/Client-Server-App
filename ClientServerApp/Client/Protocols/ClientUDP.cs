@@ -15,17 +15,16 @@ namespace Client.Protocols
         public static void StartUDP() 
         {
 
-            int localPort = 11000; // mozna przekazywac jako argument 
+            int localPort = 11000;
             int remotePort = 11001;
-            //System.Threading.Thread.Sleep(1000);
             UdpClient udpClient = new UdpClient(localPort);
             Stopwatch stopWatch = new Stopwatch();
 
 
             try
             {
-                string message = Client.ExecuteCommand();
-                byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+                string command = Client.ExecuteCommand();
+                byte[] sendBytes = Encoding.ASCII.GetBytes(command);
 
                 udpClient.Connect("localhost", remotePort);
                 stopWatch.Start();
@@ -37,7 +36,7 @@ namespace Client.Protocols
                 string returnData = Encoding.ASCII.GetString(receiveBytes);
 
                 Console.WriteLine("Download: {0}", returnData);
-                Console.WriteLine("Time elapsed: {0}", stopWatch.Elapsed);
+                if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed: {0}", stopWatch.Elapsed);
                 Console.WriteLine("This message was sent from {0}:{1}",RemoteIPEndPoint.Address,RemoteIPEndPoint.Port);
                 Console.WriteLine();
 

@@ -75,6 +75,8 @@ namespace Client
                     return command;
                 else if (command.Contains("help"))
                     return Help.HelpExecute(command);
+                else if (command.Contains("file"))
+                    return command;
                 else
                 {
                     Console.WriteLine("Wrong Option! Choose again! \n");

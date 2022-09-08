@@ -8,15 +8,11 @@ namespace Commands
 {
     public class Chat
     {
-        //private static Dictionary<int, string> myIdBase = new Dictionary<int, string>(); // moje ID
-        private static List<int> myIdBase = new List<int>();
 
         private static Dictionary<int, string> otherIdBase = new Dictionary<int, string>(); // ID rozmówcy 
         private static Dictionary<int, string> userMessageBase = new Dictionary<int, string>(); // wiadomosc
-        private static List<int> idBase = new List<int>();
 
-        //private object lockMessage = new object();
-
+        // dodac opcje kto jest dostepny
         public static string Messenger(string message) 
         {
             string[] obj = message.Split(' ');
@@ -33,15 +29,12 @@ namespace Commands
                     return ReceiveMessage(obj[2]);
 
                 default:
-                    return "(chat) Incorrect option!";
+                    return "(chat) Wrong option! Choose again.";
                    
             }
-
             //chat send mój_id id_rozmówcy wiadomosc
             //serwer: chat ok
             //zapytanie o wiadomosc chat receive msg list
-
-
         }
 
         static string SendMessage(string myId, string otherId,string userMessage) 

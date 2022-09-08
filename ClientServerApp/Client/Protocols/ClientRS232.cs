@@ -18,17 +18,17 @@ namespace Client.Protocols
 
             try
             {
-                string message = Client.ExecuteCommand();
+                string command = Client.ExecuteCommand();
 
                 stopWatch.Start();
                 serial.Open();
                 
-                serial.WriteLine(message);
+                serial.WriteLine(command);
                 stopWatch.Stop();
                 string returnMessage =serial.ReadLine();
 
                 Console.WriteLine("Download: {0}", returnMessage);
-                Console.WriteLine("Time elapsed: {0}", stopWatch.Elapsed);
+                if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed: {0}", stopWatch.Elapsed);
                 Console.WriteLine();
 
                 serial.Close();

@@ -77,7 +77,6 @@ namespace Server
             services.Remove(name);
             Console.WriteLine("- SERVER - Service Module Removed!");
         }
-
         public string Answer(string command)
         {
             if (command != null)
@@ -106,7 +105,6 @@ namespace Server
             communicators.Clear();
             services.Clear();
         }
-
         void TaskDelay() 
         {
             while (communicators.Count != 0) 
@@ -124,6 +122,7 @@ namespace Server
             server.AddServiceModule("chat", new ChatCommand());
             server.AddServiceModule("conf", new ConfCommand(server));
             server.AddServiceModule("help", new HelpCommad());
+            server.AddServiceModule("file", new FileTransferCommand());
 
 
             server.Start();

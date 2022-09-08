@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Ports;
 
 namespace Server.ServerCommands
 {
@@ -99,33 +100,38 @@ namespace Server.ServerCommands
             }
         }
 
-        public string AddListener(string command)
+        public string AddListener(string command) //dodawanie dziala
         {
+            string[] parameters = command.Split();
             if (command.Contains("tcplistener"))
             {
-                serv.AddListner(new TCPListener(command.Split()[3], Convert.ToInt32(command.Split()[4])));
+                serv.AddListner(new TCPListener(parameters[3],  int.Parse(parameters[4])));
 
                 return "(Server) Listener added! Listener: tcplistener";
             }
             else if (command.Contains("udplistener"))
             {
-                serv.AddListner(new UDPListner(Convert.ToInt32(command.Split()[4])));
+                serv.AddListner(new UDPListner(Convert.ToInt32(parameters[3])));
                 return "(Server) Listener added! Listener: udpListener";
             }
             else if (command.Contains("rs232listener"))
             {
-                serv.AddListner(new UDPListner(Convert.ToInt32(command.Split()[4])));
-                return "(Server) Listener added! Listener: udpListener";
+                serv.AddListner(new RS232Listner(parameters[3],
+                    int.Parse(parameters[4]),
+                    (Parity)Enum.Parse(typeof(Parity), parameters[5]),
+                    int.Parse(parameters[6]),
+                    (StopBits)Enum.Parse(typeof(StopBits), parameters[7])));
+                return "(Server) Listener added! Listener: rs232Listener";
             }
             else if (command.Contains("filelistener"))
             {
-                serv.AddListner(new UDPListner(Convert.ToInt32(command.Split()[4])));
-                return "(Server) Listener added! Listener: udpListener";
+                serv.AddListner(new FileListner(parameters[3]));
+                return "(Server) Listener added! Listener: fileListener";
             }
             else if (command.Contains("remotinglistener"))
             {
-                serv.AddListner(new UDPListner(Convert.ToInt32(command.Split()[4])));
-                return "(Server) Listener added! Listener: udpListener";
+                serv.AddListner(new NETRemotingListner(Convert.ToInt32(parameters[3])));
+                return "(Server) Listener added! Listener: NETRemotingListner";
             }
             else
             {
@@ -150,7 +156,7 @@ namespace Server.ServerCommands
             else if (command.Contains("help"))
             {
                 Console.WriteLine("(Server) Service module removed!\n Service: help");
-                serv.AddServiceModule("help", new HelpCommad());
+                serv.RemoveServiceModule("help");
                 return "Service module added!\n Service: help";
             }
             else if (command.Contains("conf"))

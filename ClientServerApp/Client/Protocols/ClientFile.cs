@@ -10,9 +10,8 @@ namespace Client.Protocols
 {
     class ClientFile
     {
-        //static string path = @"D:\dokumenty\C#\Communication";
-        //static bool waitForRead = true;
-        public static void StartFile()
+
+        public static async void StartFile()
         {
             //klient odczytuje komende
             //FileSystemWatcher clientWatcher = new FileSystemWatcher(path);
@@ -34,7 +33,7 @@ namespace Client.Protocols
                 stopWatch.Start();
                 using (StreamWriter sr = new StreamWriter(path + @"\question.in"))
                 {
-                    sr.WriteLine(command);
+                    await sr.WriteLineAsync(command);
                 }
                 while (!IsFileLocked(new FileInfo(path + @"\question.out")) && !IsFileLocked(new FileInfo(path + @"\question.in")) && waitForRead)
                 {
@@ -45,19 +44,19 @@ namespace Client.Protocols
                     {
                         string line;
                         Console.Write("- File - Download: ");
-                        while ((line = sr.ReadLine()) != null)
+                        while ((line = await sr.ReadLineAsync()) != null)
                             Console.WriteLine(line);
                         stopWatch.Stop();
-                        Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
+                        if(command.Split()[0].Contains("ping"))Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
                         waitForRead = false;
                     }
                    // Task.Delay(1000);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.ToString());
+               // Console.WriteLine(e.ToString());
             }
         }
 
@@ -82,6 +81,29 @@ namespace Client.Protocols
             return false;
         }
 
-     
+        //public void Start(CommunicatorD onConnect)
+        //{
+        //    this.onConnect = onConnect;
+        //    serverWatcher.Changed += ServerWatcherChanged;
+        //    serverWatcher.Filter = "*.in";
+        //    serverWatcher.NotifyFilter = NotifyFilters.LastWrite |
+        //                                 NotifyFilters.LastAccess |
+        //                                 NotifyFilters.FileName |
+        //                                 NotifyFilters.DirectoryName; // co dokladnie obserwujemy 
+        //    serverWatcher.EnableRaisingEvents = true;
+        //    serverWatcher.IncludeSubdirectories = true;
+        //}
+
+        //private void ServerWatcherChanged(object sender, FileSystemEventArgs e)
+        //{
+
+        //    if (e.ChangeType == WatcherChangeTypes.Changed)
+        //    {
+        //        onConnect(new FileCommunicator(e.FullPath));
+        //    }
+        //    Console.WriteLine($"Changed: {e.FullPath}");
+        //}
+
+
     }
 }

@@ -17,6 +17,8 @@ namespace Server.ServerCommands
                 return Help.Chat();
             else if (command.Contains("conf"))
                 return Help.Conf();
+            else if (command.Contains("file"))
+                return Help.Conf();
             else if (command.Contains("deafult"))
                 return Help.Default();
             else

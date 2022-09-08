@@ -10,12 +10,10 @@ namespace Server
     class FileCommunicator : ICommunicator
     {
         readonly string readFilePath;
-        //bool shoulTerminate = false;
-
+        CommunicatorD onDisconnect;
         public FileCommunicator(string readFilePath) => this.readFilePath = readFilePath;
 
-
-        public void Listener(CommandD onCommand, CommunicatorD onDisconnect) 
+        public async void Listener(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             try
             {
@@ -38,8 +36,7 @@ namespace Server
                             //{
                             // data =  sr.ReadLine();
                             //string message = onCommand(data);
-                            Console.WriteLine(message);
-                            sw.WriteLine(message);
+                            await sw.WriteLineAsync(message);
                             //}
                         }
                     
@@ -48,18 +45,19 @@ namespace Server
             }
             catch (Exception)
             {
-                onDisconnect(this);
-                //  Console.WriteLine("The process failed {0}", e.ToString());
+               // Console.WriteLine("The process failed {0}", e.ToString());
             }
         }
 
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
+            this.onDisconnect = onDisconnect;
             Task.Run(() => Listener(onCommand, onDisconnect));
         }
 
         public void Stop()
         {
+            onDisconnect(this);
             //shoulTerminate = true;
             Console.WriteLine("- File - File Disconnected!");
         }
@@ -76,8 +74,6 @@ namespace Server
             this.path = path;
             serverWatcher = new FileSystemWatcher(path);
         }
-
-
 
         public void Start(CommunicatorD onConnect)
         {

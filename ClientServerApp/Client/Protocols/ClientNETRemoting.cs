@@ -21,14 +21,14 @@ namespace Client.Protocols
                 Stopwatch stopWatch = new Stopwatch();
 
                 string command = Client.ExecuteCommand();
-                ChannelServices.RegisterChannel(new TcpChannel(),false);// gdy dodane true zrywa polaczenie
+                ChannelServices.RegisterChannel(new TcpChannel(),false);    // gdy dodane true zrywa polaczenie
 
                 stopWatch.Start();
                 var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
                                "tcp://localhost:8082/RemoteObject");
 
                 Console.WriteLine(obj.AnswerCommand(command));
-                Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
+                if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed : {0}", stopWatch.Elapsed);
             }
             catch (Exception e)
             {

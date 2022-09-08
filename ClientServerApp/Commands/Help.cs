@@ -26,8 +26,10 @@ namespace Commands
                         return "help chat";
                     case "conf":
                         return "help conf";
+                    case "file":
+                        return "help file";
                     default:
-                        Console.WriteLine("Wrong option! Choose again.");
+                        Console.WriteLine("(help) Wrong option! Choose again.");
                         obj = Console.ReadLine();
                         obj.Trim('\n', ' ');
                         break;

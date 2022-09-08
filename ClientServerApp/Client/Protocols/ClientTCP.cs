@@ -15,17 +15,14 @@ namespace Client.Protocols
             try
             {
                 string server = "localhost";
-                TcpClient client = new TcpClient(server, 12345); // mozna dodac kontruktor w suumie
+                TcpClient client = new TcpClient(server, 12345); 
                 NetworkStream stream = client.GetStream();
 
                 Stopwatch stopWatch = new Stopwatch();
+   
+                string command = Client.ExecuteCommand(); 
 
-
-                //  while (true) // zabrane <= bedzie siedziec na pingu 
-                //  {
-                string command = Client.ExecuteCommand(); // <== tu// zmienic OK
-
-                    byte[] data = System.Text.Encoding.ASCII.GetBytes(command); // <== tu zmienic// OK
+                    byte[] data = System.Text.Encoding.ASCII.GetBytes(command); 
 
                     stopWatch.Start();
                     stream.Write(data, 0, data.Length);
@@ -45,7 +42,7 @@ namespace Client.Protocols
                     while (stream.DataAvailable); // 
 
                     Console.WriteLine("Download: {0}", odp);
-                    Console.WriteLine("Time elapsed: " + stopWatch.Elapsed);
+                    if (command.Split()[0].Contains("ping")) Console.WriteLine("Time elapsed: " + stopWatch.Elapsed);
                     stream.Close();
                     client.Close();
             }

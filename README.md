@@ -35,8 +35,10 @@ Server needs to recognize service command and send data back to right Client.
 
 * Services used in project:
 - [x] Ping
-- [ ] Chat
-- [ ] Configuration  
+- [x] Chat
+- [x] Configuration  
+- [x] Help
+- [x] Files
 
 
 
