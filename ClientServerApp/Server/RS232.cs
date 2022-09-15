@@ -29,7 +29,10 @@ namespace Server
                     message = client.ReadLine();
                     Console.WriteLine("(RS-232) Download: {0}", message);
                     string command = onCommand(message);
-                    client.NewLine = "\r\n";
+                    if (command.Contains("help") || command.Contains("conf"))
+                        client.NewLine = "\r\n";
+                    else
+                        client.NewLine = "\n";
                     client.WriteLine(command);
 
                     Console.WriteLine("(RS-232) Send: {0}", command);

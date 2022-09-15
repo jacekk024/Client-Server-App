@@ -74,29 +74,29 @@ namespace Server.ServerCommands
             {
                 Console.WriteLine("(Server) Service module added!\n Service: ping");
                 serv.AddServiceModule("ping",new PingCommand());
-                return "Service module added!\n Service: ping";
+                return "Service module added!\n Service: ping\r\n";
             }
             else if (command.Contains("chat"))
             {
                 Console.WriteLine("(Server) Service module added!\n Service: chat");
                 serv.AddServiceModule("chat", new ChatCommand());
-                return "Service module added!\n Service: chat";
+                return "Service module added!\n Service: chat\r\n";
             }
             else if (command.Contains("help"))
             {
                 Console.WriteLine("(Server) Service module added!\n Service: help");
                 serv.AddServiceModule("help", new HelpCommad());
-                return "Service module added!\n Service: help";
+                return "Service module added!\n Service: help\r\n";
             }
             else if (command.Contains("conf")) 
             {
                 Console.WriteLine("(Server) Client doesn`t have entitlements to modify this service!\n Service: conf");
-                return "You don`t have entitlements to modify this service!";
+                return "You don`t have entitlements to modify this service!\r\n";
             }
             else 
             {
                 Console.WriteLine("(Server) Can not add a module !");
-                return "Incorrect module!";
+                return "Incorrect module!\r\n";
             }
         }
 
@@ -107,12 +107,12 @@ namespace Server.ServerCommands
             {
                 serv.AddListner(new TCPListener(parameters[3],  int.Parse(parameters[4])));
 
-                return "(Server) Listener added! Listener: tcplistener";
+                return "(Server) Listener added! Listener: tcplistener\r\n";
             }
             else if (command.Contains("udplistener"))
             {
                 serv.AddListner(new UDPListner(Convert.ToInt32(parameters[3])));
-                return "(Server) Listener added! Listener: udpListener";
+                return "(Server) Listener added! Listener: udpListener\r\n";
             }
             else if (command.Contains("rs232listener"))
             {
@@ -121,17 +121,17 @@ namespace Server.ServerCommands
                     (Parity)Enum.Parse(typeof(Parity), parameters[5]),
                     int.Parse(parameters[6]),
                     (StopBits)Enum.Parse(typeof(StopBits), parameters[7])));
-                return "(Server) Listener added! Listener: rs232Listener";
+                return "(Server) Listener added! Listener: rs232Listener\r\n";
             }
             else if (command.Contains("filelistener"))
             {
                 serv.AddListner(new FileListner(parameters[3]));
-                return "(Server) Listener added! Listener: fileListener";
+                return "(Server) Listener added! Listener: fileListener\r\n";
             }
             else if (command.Contains("remotinglistener"))
             {
                 serv.AddListner(new NETRemotingListner(Convert.ToInt32(parameters[3])));
-                return "(Server) Listener added! Listener: NETRemotingListner";
+                return "(Server) Listener added! Listener: NETRemotingListner\r\n";
             }
             else
             {
@@ -145,29 +145,29 @@ namespace Server.ServerCommands
             {
                 Console.WriteLine("(Server) Service module removed!\n Service: ping");
                 serv.RemoveServiceModule("ping");
-                return "Service module removed!\n Service: ping";
+                return "Service module removed!\n Service: ping\r\n";
             }
             else if (command.Contains("chat"))
             {
                 Console.WriteLine("(Server) Service module removed!\n Service: chat");
                 serv.RemoveServiceModule("chat");
-                return "Service module added!\n Service: chat";
+                return "Service module added!\n Service: chat\r\n";
             }
             else if (command.Contains("help"))
             {
                 Console.WriteLine("(Server) Service module removed!\n Service: help");
                 serv.RemoveServiceModule("help");
-                return "Service module added!\n Service: help";
+                return "Service module added!\n Service: help\r\n";
             }
             else if (command.Contains("conf"))
             {
                 Console.WriteLine("(Server) Client doesn`t have entitlements to modify this service!\n Service: conf");
-                return "You don`t have entitlements to modify this service!";
+                return "You don`t have entitlements to modify this service!\r\n";
             }
             else
             {
                 Console.WriteLine("(Server) Incorrect module!");
-                return "Incorrect module!";
+                return "Incorrect module!\r\n";
             }
         }
 

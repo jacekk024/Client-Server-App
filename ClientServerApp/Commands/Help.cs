@@ -11,7 +11,7 @@ namespace Commands
         public static string HelpExecute(string command) 
         {
             Console.WriteLine("please type service you need:\n" +
-                "default\nping\nchat\nconf\n");
+                "default\nping\nchat\nconf\nfile\n");
             command = Console.ReadLine();
             var obj = command.Trim('\n',' ');
             while (true) // serwer powinien odsylac odpowiednie odpowiedzi

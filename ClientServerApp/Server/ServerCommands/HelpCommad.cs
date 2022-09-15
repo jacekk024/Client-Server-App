@@ -18,7 +18,7 @@ namespace Server.ServerCommands
             else if (command.Contains("conf"))
                 return Help.Conf();
             else if (command.Contains("file"))
-                return Help.Conf();
+                return Help.File();
             else if (command.Contains("deafult"))
                 return Help.Default();
             else

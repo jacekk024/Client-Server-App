@@ -1,0 +1,39 @@
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Server.exe.config
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Server.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Server.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Client.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Commands.dll
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Client.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Client.exe.config
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\bin\Debug\Commands.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\obj\Debug\Server.csproj.CopyComplete
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\obj\Debug\Server.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\laboratorium\ClientServerApp\Server\obj\Debug\Server.pdb
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Server.exe.config
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Server.exe
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Server.pdb
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Client.exe
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Commands.dll
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Client.pdb
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Client.exe.config
+D:\dokumenty\C#\ClientServerApp\Server\bin\Debug\Commands.pdb
+D:\dokumenty\C#\ClientServerApp\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+D:\dokumenty\C#\ClientServerApp\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+D:\dokumenty\C#\ClientServerApp\Server\obj\Debug\Server.csproj.CopyComplete
+D:\dokumenty\C#\ClientServerApp\Server\obj\Debug\Server.exe
+D:\dokumenty\C#\ClientServerApp\Server\obj\Debug\Server.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Server.exe.config
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Server.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Server.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Client.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Commands.dll
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Client.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Client.exe.config
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\bin\Debug\Commands.pdb
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\obj\Debug\Server.csproj.CopyComplete
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\obj\Debug\Server.exe
+D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\ClientServerApp\Server\obj\Debug\Server.pdb

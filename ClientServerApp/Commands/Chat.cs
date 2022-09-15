@@ -41,21 +41,25 @@ namespace Commands
 
         static string ShowUserList() 
         {
-            string message = "(chat) Users:\n";
+            string message = "(chat) Users: ";
 
             foreach (var id in IdBase)
                 message += id.Key + "\n";
 
-            return message;
-        
+            return message+"\r\n";
         }
 
         static string SendMessage(string myId, string otherId,string userMessage) 
         {
-            IdBase.Add(Convert.ToInt32(otherId), myId);
-            userMessageBase.Add(Convert.ToInt32(otherId),userMessage);
-            Console.WriteLine("(chat) OK");
-            return "(chat) You send a message!";
+            if (!userMessageBase.ContainsKey(int.Parse(otherId)))
+            {
+                IdBase.Add(Convert.ToInt32(otherId), myId); // ten kto dostaje wiadomosc ma info od kogo
+                userMessageBase.Add(Convert.ToInt32(otherId), userMessage);
+                Console.WriteLine("(chat) OK");
+                return "(chat) You send a message!";
+            }
+            else
+            return "(chat) Client already get a message!";
         }
 
         static string ReceiveMessage(string myId) 
@@ -65,8 +69,8 @@ namespace Commands
             if(!userMessageBase.Any(x => x.Key == Convert.ToInt32(myId)))
                 return "(chat) There is no message!";
 
-            var message = userMessageBase.First(x => x.Key == Convert.ToInt32(myId));
-            var user = IdBase.First(x => x.Key == Convert.ToInt32(myId));
+            var message = userMessageBase.First(x => x.Key == Convert.ToInt32(myId)); // wiadomosc
+            var user = IdBase.First(x => x.Key == Convert.ToInt32(myId));//kto przeslal
 
             data += user.Value + " send: " + message.Value;
 

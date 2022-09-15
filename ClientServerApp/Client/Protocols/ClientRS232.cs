@@ -25,7 +25,11 @@ namespace Client.Protocols
                 
                 serial.WriteLine(command);
                 stopWatch.Stop();
-                serial.NewLine = "\r\n";
+                if(command.Contains("help") || command.Contains("conf"))
+                    serial.NewLine = "\r\n";
+                else
+                    serial.NewLine = "\n";
+
                 string returnMessage = serial.ReadLine();
 
                 Console.WriteLine("Download: {0}", returnMessage);

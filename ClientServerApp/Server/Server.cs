@@ -43,11 +43,13 @@ namespace Server
 
         public void AddListner(IListner listner)
         {
-            listeners.Add(listner); // w osobnym watku
+            //   listeners.Add(listner); // w osobnym watku
             lock (lockListener)
             {
-                Task.Run(()=>listner.Start(new CommunicatorD(AddCommunicator)));
+                listeners.Add(listner); 
             }
+            Task.Run(() => listner.Start(new CommunicatorD(AddCommunicator)));
+
             Console.WriteLine("- SERVER - Listener Added!");
         }
 
@@ -88,10 +90,13 @@ namespace Server
             return "Command was null!";
         }
             
-        public void Start() 
+        public void Start() //nie ma koniecznosci 
         {
-            foreach (var listener in listeners) 
+
+            foreach (var listener in listeners)
+            {              
                 listener.Start(new CommunicatorD(AddCommunicator));
+            }
         }
         public void Stop()
         {
@@ -124,9 +129,7 @@ namespace Server
             server.AddServiceModule("help", new HelpCommad());
             server.AddServiceModule("file", new FileTransferCommand());
 
-
-            server.Start();
-
+           
             server.AddListner(new TCPListener("127.0.0.1",12345));
             server.AddListner(new UDPListner(11001));
             server.AddListner(new RS232Listner("COM3", 9600, Parity.None, 8, StopBits.One));
@@ -134,7 +137,6 @@ namespace Server
             server.AddListner(new FileListner(@"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\Communication"));
 
             server.TaskDelay();
-            server.Stop();
 
         }
     }

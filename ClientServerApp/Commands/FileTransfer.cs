@@ -33,7 +33,7 @@ namespace Commands
                 string list = null;
 
                 foreach (FileInfo i in Files)
-                    list += i.Name + "\n";
+                    list += i.Name + " ";
 
                 return list;
             }
@@ -50,7 +50,7 @@ namespace Commands
                 {
                     byte[] data = new byte[sr.Length];
                     sr.Read(data, 0, (int)sr.Length);
-                    string text = Encoding.ASCII.GetString(data);
+                    string text = Encoding.ASCII.GetString(data);//odczyt binarny
                     return text;
                 }
             }
@@ -61,12 +61,12 @@ namespace Commands
         {
             string filename = @"D:\dokumenty\Studia Infa Stosowana\PROSIKO\Client-Server-App\File\" + command.Split()[2];
             var sb = new StringBuilder();
-            for (int i = 3; i < command.Split().Length; i++)
+            for (int i = 3; i < command.Split().Length; i++) // zapisujemy wszystko po nazwie pliku
                 sb.Append(command.Split()[i] + " ");
             Console.WriteLine(sb);
             using (FileStream sw = new FileStream(filename,FileMode.Create))
             {
-                byte[] data = Encoding.UTF8.GetBytes(sb.ToString());
+                byte[] data = Encoding.UTF8.GetBytes(sb.ToString()); //zapis binarny
                 sw.Write(data,0,data.Length);
                 sw.Close();
                 return "(file) Data saved in file!";

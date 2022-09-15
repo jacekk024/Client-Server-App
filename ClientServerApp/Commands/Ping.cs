@@ -20,7 +20,7 @@ namespace Commands
                 {
                     Console.WriteLine("(ping) Send default message!");
                     string[] temp = new string[] { tab[0], Convert.ToString(10), "message!" };
-                    string response = String.Join(" ", temp);
+                    string response = String.Join(" ", temp); //spacje pomiedzy wyrazami
                     return $"{response.Split()[0]} {response.Split()[1]} {response.Split()[2]}";
                 }
                 else

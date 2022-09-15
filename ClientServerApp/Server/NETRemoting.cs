@@ -31,9 +31,9 @@ namespace Server
 
                 RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
            
-                RemotingServices.Marshal(remoteObject, "RemoteObject");
+                RemotingServices.Marshal(remoteObject, "RemoteObject"); // konwertuje ją na wystąpienie ObjRef 
 
-                //ShowServerConfiguration();
+                ShowServerConfiguration();
 
             }
             catch (Exception e)

@@ -14,7 +14,7 @@ namespace Commands
 
         public RemoteObject() { }
 
-        public  string AnswerCommand(string command)
+        public string AnswerCommand(string command)
         {
             string answer = onCommand(command);
             Console.WriteLine("(.NET Remoting)  {0}", answer);

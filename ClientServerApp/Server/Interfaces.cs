@@ -12,7 +12,7 @@ namespace Server
     }
     public interface ICommunicator
     {
-        void Start(CommandD onCommand, CommunicatorD onDisconnect);
+        void Start(CommandD onCommand, CommunicatorD onDisconnect); 
         void Stop(); // odlacza wszytskie komunikatory
     }
 

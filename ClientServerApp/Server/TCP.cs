@@ -22,7 +22,7 @@ namespace Server
             Byte[] bytes = new Byte[256];
             string data = string.Empty;
             int len;
-            NetworkStream stream = client.GetStream();
+            NetworkStream stream = client.GetStream();//strumień danych na potrzeby dostępu do sieci
             Console.WriteLine("(TCP) Running Comunicator");
 
             try
@@ -49,7 +49,6 @@ namespace Server
                         data = string.Empty;
 
                     }
-                    data = string.Empty;
                 }
                 stream.Close();
             }

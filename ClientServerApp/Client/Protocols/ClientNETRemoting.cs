@@ -21,8 +21,7 @@ namespace Client.Protocols
                 Stopwatch stopWatch = new Stopwatch();
 
                 string command = Client.ExecuteCommand();
-                ChannelServices.RegisterChannel(new TcpChannel(),false);    // gdy dodane true zrywa polaczenie
-
+               // ChannelServices.RegisterChannel(new TcpChannel(),false);    // gdy dodane true zrywa polaczenie, przy ponowny polaczeniu zrywa polaczenie 
                 stopWatch.Start();
                 var obj = (RemoteObject)Activator.GetObject(typeof(RemoteObject),
                                "tcp://localhost:8082/RemoteObject");
