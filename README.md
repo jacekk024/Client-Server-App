@@ -12,6 +12,7 @@
 
 ## Tools
 * Visual Studio 2019
+* HHD Virtual Serial Port Tools (Free Version)
 
 
 ## Technologies
