@@ -8,17 +8,8 @@ namespace Commands
 {
     public class RemoteObject : MarshalByRefObject
     {
-        public  delegate  string CommandD(string command);
-        public  CommandD onCommand;
-        public RemoteObject( CommandD  onCommand) => this.onCommand = onCommand;
-
-        public RemoteObject() { }
-
-        public string AnswerCommand(string command)
-        {
-            string answer = onCommand(command);
-            Console.WriteLine("(.NET Remoting)  {0}", answer);
-            return answer;
-        }
+        public static CommandD onCommand;
+        public delegate string CommandD(string command);
+        public string AnswerCommand(string command) => onCommand(command);
     }   
 }

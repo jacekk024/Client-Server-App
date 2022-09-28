@@ -18,6 +18,9 @@
 ## Technologies
 * .Net Framework
 
+## Useful Resources
+* TcpChannel Class with example of use .Net Remoting
+* * https://learn.microsoft.com/en-us/dotnet/api/system.runtime.remoting.channels.tcp.tcpchannel?view=netframework-4.8&viewFallbackFrom=netframework-4.8%5C
 
 ## Description
 
@@ -44,5 +47,9 @@ Server needs to recognize service command and send data back to right Client.
 
 ## TO DO
 
-- [x] Correct .Net Remoting - Use appernt connection between server and client - .Net Remoting listener fullfill for set of connection
-  
+- [done] Correct .Net Remoting - Use appernt connection between server and client - .Net Remoting listener fullfill for set of connection 
+- Many UDP clients sending data at the same time 
+- new option for ping - ping [bytes-to-server] [bytes-from-server] [how-many-time] 
+- new communicators gRPC,Bluetooth etc. 
+- Decrease usage of processor
+- Rewrite configuration file (OOP) 

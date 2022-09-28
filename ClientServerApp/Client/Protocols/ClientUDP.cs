@@ -14,10 +14,8 @@ namespace Client.Protocols
     {
         public static void StartUDP() 
         {
-
-            int localPort = 11000;
             int remotePort = 11001;
-            UdpClient udpClient = new UdpClient(localPort);
+            UdpClient udpClient = new UdpClient();
             Stopwatch stopWatch = new Stopwatch();
 
 

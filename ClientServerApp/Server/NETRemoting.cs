@@ -16,6 +16,7 @@ namespace Server
 
         private TcpChannel serverChannel;
         CommunicatorD onDisconnect;
+       
         public NETRemotingCommunicator(TcpChannel serverChannel) 
         {
             this.serverChannel = serverChannel;
@@ -24,36 +25,35 @@ namespace Server
         public void Run(CommandD onCommand, CommunicatorD onDisconnect) 
         {
             try
-            {
-                ChannelServices.RegisterChannel(serverChannel, false);
-                RemotingConfiguration.RegisterWellKnownServiceType(typeof
-                                              (RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
-
-                RemoteObject remoteObject = new RemoteObject(new RemoteObject.CommandD(onCommand));
-           
-                RemotingServices.Marshal(remoteObject, "RemoteObject"); // konwertuje ją na wystąpienie ObjRef 
-
-                ShowServerConfiguration();
-
+            {    
+                RemoteObject.onCommand += new RemoteObject.CommandD(onCommand);                
+                RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
+                //ShowServerConfiguration();
             }
             catch (Exception e)
-            {
-                onDisconnect(this);
-                Console.WriteLine(e.ToString());
+            {               
+                Console.WriteLine(e.Message);
             }
         }
 
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
             this.onDisconnect = onDisconnect;
-            Task.Run(() => Run( onCommand,onDisconnect));
+
+           // serverChannel = new TcpChannel(port);
+           // ChannelServices.RegisterChannel(serverChannel, false);
+
+          //  RemoteObject.onCommand += new RemoteObject.CommandD(onCommand);
+           // RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
+
+            Task.Run(() => Run(onCommand,onDisconnect));
         }
 
         public void Stop()
         {
-            onDisconnect(this);
             ChannelServices.UnregisterChannel(serverChannel);
             Console.WriteLine("(.NET Remoting) Communicator stopped");
+            onDisconnect(this);
         }
 
         private static void ShowServerConfiguration() 
@@ -95,10 +95,11 @@ namespace Server
             this.port = port;
         }
 
-
+        //[Obsolete]
         public void Start(CommunicatorD onConnect)
         {
             serverChannel = new TcpChannel(port);
+            ChannelServices.RegisterChannel(serverChannel,false);
             onConnect(new NETRemotingCommunicator(serverChannel));
         }
 
