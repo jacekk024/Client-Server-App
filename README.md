@@ -48,7 +48,7 @@ Server needs to recognize service command and send data back to right Client.
 ## TO DO
 
 - [x] Correct .Net Remoting - Use appernt connection between server and client - .Net Remoting listener fullfill for set of connection 
-- [] Many UDP clients sending data at the same time 
-- [] new option for ping - ping [bytes-to-server] [bytes-from-server] [how-many-time] 
-- [] new communicators gRPC,Bluetooth etc. 
-- [] Decrease usage of processor
+- [ ] Many UDP clients sending data at the same time 
+- [ ] new option for ping - ping [bytes-to-server] [bytes-from-server] [how-many-time] 
+- [ ] new communicators gRPC,Bluetooth etc. 
+- [ ] Decrease usage of processor
