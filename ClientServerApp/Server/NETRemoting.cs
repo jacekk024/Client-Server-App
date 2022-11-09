@@ -39,13 +39,6 @@ namespace Server
         public void Start(CommandD onCommand, CommunicatorD onDisconnect)
         {
             this.onDisconnect = onDisconnect;
-
-           // serverChannel = new TcpChannel(port);
-           // ChannelServices.RegisterChannel(serverChannel, false);
-
-          //  RemoteObject.onCommand += new RemoteObject.CommandD(onCommand);
-           // RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemoteObject), "RemoteObject", WellKnownObjectMode.Singleton);
-
             Task.Run(() => Run(onCommand,onDisconnect));
         }
 
@@ -94,8 +87,7 @@ namespace Server
         {
             this.port = port;
         }
-
-        //[Obsolete]
+       
         public void Start(CommunicatorD onConnect)
         {
             serverChannel = new TcpChannel(port);
